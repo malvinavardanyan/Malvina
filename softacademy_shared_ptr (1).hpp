@@ -19,9 +19,8 @@ struct ControlBlock {
     ControlBlock(void* p, void (*d)(void*))
         :strong_count(1)
         ,weak_count(0)
-        ,ptr(ptr)
+        ,ptr(p)
         ,deleter(d){}
-
 };
 
 template <typename U>
@@ -39,20 +38,24 @@ public:
     SharedPtr() noexcept
         :m_ptr(nullptr)
         ,m_control(nullptr){}
+
     explicit SharedPtr(T* ptr)
         :m_ptr(ptr)
-        , m_control(nullptr) {}
+        ,m_control(nullptr) {}
+
     SharedPtr(const SharedPtr& other) noexcept
         :m_ptr(other.m_ptr)
         ,m_control(other.m_control){
         inc_strong();
     }
+
     SharedPtr(SharedPtr&& other) noexcept
         :m_ptr(other.m_ptr)
-        , m_control(other.m_control) {
+        ,m_control(other.m_control) {
         other.m_ptr = nullptr;
         other.m_control = nullptr;
     }
+
     SharedPtr& operator=(const SharedPtr& other) noexcept {
         if (this != &other) {
             dec_strong();
@@ -62,8 +65,9 @@ public:
         }
         return *this;
     }
+
     SharedPtr& operator=(SharedPtr&& other) noexcept{
-        if (this != other) {
+        if (this != &other) {
             dec_strong();
             m_ptr = other.m_ptr;
             m_control = other.m_control;
@@ -72,6 +76,7 @@ public:
         }
         return *this
     }
+
     ~SharedPtr() {
         reset();
     }
