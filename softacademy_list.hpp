@@ -32,18 +32,21 @@ public:
         :m_head(nullptr)
         ,m_tail(nullptr)
         ,m_size(0){}
+
     LinkedList(const LinkedList& other)
         :m_head(nullptr)
-        , m_tail(nullptr)
-        , m_size(0) {
+        ,m_tail(nullptr)
+        ,m_size(0) {
         copy_from(other);
     }
+
     LinkedList(LinkedList&& other) noexcept
         :m_head(nullptr)
-        , m_tail(nullptr)
-        , m_size(0) {
+        ,m_tail(nullptr)
+        ,m_size(0) {
         move_from(std::move(other));
     }
+
     LinkedList& operator=(const LinkedList& other) {
         if (this != &other) {
             destroy_all();
@@ -51,6 +54,7 @@ public:
         }
         return *this;
     }
+
     LinkedList& operator=(LinkedList&& other) noexcept {
         if (this != other) {
             destroy_all();
@@ -58,6 +62,7 @@ public:
         }
         return *this;
     }
+
     ~LinkedList() {
         destroy_all;
     }
