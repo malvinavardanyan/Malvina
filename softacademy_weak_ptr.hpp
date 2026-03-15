@@ -25,6 +25,7 @@ public:
     WeakPtr() noexcept
         :m_ptr(nullptr)
         ,m_control(nullptr){}
+
     WeakPtr(const SharedPtr<T>& sp) noexcept
         :m_ptr(sp.m_ptr)
         ,m_control(sp.m_control){
@@ -33,12 +34,13 @@ public:
 
     WeakPtr(const WeakPtr& other) noexcept
         :m_ptr(other.m_ptr)
-        , m_control(other.m_control) {
+        ,m_control(other.m_control) {
         inc_weak();
     }
+
     WeakPtr(WeakPtr&& other) noexcept
         :m_ptr(other.m_ptr)
-        , m_control(other.m_control) {
+        ,m_control(other.m_control) {
         other.m_ptr = nullptr;
         other.m_control = nullptr;
     }
@@ -52,6 +54,7 @@ public:
         }
         return *this;
     }
+
     WeakPtr& operator=(WeakPtr&& other) noexcept {
         if (this != &other) {
             reset();
@@ -62,6 +65,7 @@ public:
         }
         return *this;
     }
+
     WeakPtr& operator=(const SharedPtr<T>& sp) noexcept {
         reset();
         m_ptr = sp.m_ptr;
