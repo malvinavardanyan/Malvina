@@ -15,29 +15,33 @@ public:
 
     Vector() noexcept
         :m_data(nullptr)
-        , m_size()
-        , m_capacity(0) {};
+        ,m_size()
+        ,m_capacity(0) {};
+
     explicit Vector(size_type count)
         :m_size(count)
-        , m_capacity(count) {
+        ,m_capacity(count) {
         m_data = new T[count];
     }
+
     Vector(const Vector& other)
         :m_size(other.m_size)
-        , m_capacity(other.m_capacity) {
+        ,m_capacity(other.m_capacity) {
         m_data = new T[other.m_capacity];
         for (size_type i = 0; i < m_size; i++) {
             m_data[i] = other.m_data[i];
         }
     }
+
     Vector(Vector&& other) noexcept
         :m_data(other.m_data)
-        , m_size(other.m_size)
-        , m_capacity(other.m_capacity) {
+        ,m_size(other.m_size)
+        ,m_capacity(other.m_capacity) {
         other.m_data = nullptr;
         other.m_size = 0;
         other.m_capacity = 0;
     }
+
     Vector& operator=(const Vector& other) {
         if (this != &other) {
             delete[]m_data;
@@ -50,6 +54,7 @@ public:
         }
         return *this;
     }
+
     Vector& operator=(Vector&& other) noexcept {
         if (this != &other) {
             delete[] m_data;
@@ -62,6 +67,7 @@ public:
         }
         return *this;
     }
+
     ~Vector() {
         delete[]m_data;
         m_data = nullptr;
@@ -129,11 +135,13 @@ public:
         destroy_range(0, m_size);
         m_size = 0;
     }
+
     void push_back(const T& value) {
         grow_if_needed();
         m_data[m_size] = value;
         m_size++;
     }
+
     void push_back(T&& value) {
         grow_if_needed();
         m_data[m_size] = std::move(value);
@@ -146,6 +154,7 @@ public:
             m_data[m_size].~T();
         }
     }
+
     void resize(size_type new_size) {
         if (new_size < m_size) {
             destroy_range(new_size, m_size);
@@ -157,6 +166,7 @@ public:
         }
         m_size = new_size;
     }
+
     void resize(size_type new_size, const T& value) {
         if (new_size < m_size) {
             destroy_range(new_size, m_size);
